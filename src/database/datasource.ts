@@ -29,4 +29,5 @@ export default new DataSource({
     Project,
     Sprint,
   ],
+  migrations: ['dist/src/migrations/*.js'],
 });
