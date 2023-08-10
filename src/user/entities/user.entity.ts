@@ -4,8 +4,13 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Issue } from 'src/issue/entities/issue.entity';
+import { Task } from 'src/task/entities/task.entity';
+import { UserRoles } from 'src/roles/entities/role.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 
 @Entity()
 export class User {
@@ -24,23 +29,30 @@ export class User {
   @Column()
   lastName: string;
 
-  // @Column({ nullable: true })
-  // role: string[];
+  @ManyToMany(() => UserRoles, (userRoles) => userRoles.users)
+  @JoinTable({
+    name: 'user_has_roles',
+  })
+  roles: UserRoles[];
 
-  // Relations
-  // One-to-Many with Task
-  // @OneToMany(() => Task, (task) => task.reporter)
-  // reportedTasks: Task[];
+  @OneToMany(() => Task, (task) => task.reporter)
+  reportedTasks: Task[];
 
-  // @OneToMany(() => Task, (task) => task.assignee)
-  // assignedTasks: Task[];
+  @OneToMany(() => Task, (task) => task.assignee)
+  assignedTasks: Task[];
 
-  // Many-to-Many with Org
-  @ManyToMany(() => Organization, (org) => org.members)
-  @JoinTable()
+  @OneToMany(() => Issue, (issue) => issue.reporter)
+  reportedIssues: Issue[];
+
+  @OneToMany(() => Issue, (issue) => issue.assignee)
+  assignedIssues: Issue[];
+
+  @OneToMany(() => Issue, (issue) => issue.assignee)
+  watchingIssues: Issue[];
+
+  @ManyToMany(() => Organization, (organization) => organization.members)
   organizations: Organization[];
 
-  // // One-to-Many with Comment
-  // @OneToMany(() => Comment, (comment) => comment.author)
-  // comments: Comment[];
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 }

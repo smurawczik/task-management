@@ -1,5 +1,13 @@
+import { Board } from 'src/board/entities/board.entity';
 import { User } from '../../user/entities/user.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Organization {
@@ -9,12 +17,12 @@ export class Organization {
   @Column({ unique: true })
   name: string;
 
-  // Relations
-  // Many-to-Many with User
   @ManyToMany(() => User, (user) => user.organizations)
+  @JoinTable({
+    name: 'organization_has_members',
+  })
   members: User[];
 
-  // One-to-Many with Board
-  // @OneToMany(() => Board, (board) => board.org)
-  // boards: Board[];
+  @OneToMany(() => Board, (board) => board.organization)
+  boards: Board[];
 }
