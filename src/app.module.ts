@@ -12,6 +12,7 @@ import { TaskModule } from './task/task.module';
 import { CommentModule } from './comment/comment.module';
 import { BoardModule } from './board/board.module';
 import { LabelModule } from './label/label.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { LabelModule } from './label/label.module';
     CommentModule,
     BoardModule,
     LabelModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

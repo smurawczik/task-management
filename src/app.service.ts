@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  ping(startTime: number): object {
+    return { ping: `${startTime - Date.now()}ms` };
   }
 }

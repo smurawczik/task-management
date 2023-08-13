@@ -11,15 +11,19 @@ import { Issue } from 'src/issue/entities/issue.entity';
 import { Task } from 'src/task/entities/task.entity';
 import { UserRoles } from 'src/roles/entities/role.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
+import { IsEmail } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @IsEmail()
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 

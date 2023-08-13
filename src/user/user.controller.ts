@@ -1,4 +1,11 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -10,6 +17,7 @@ export class UserController {
   //   return this.userService.create(createUserDto);
   // }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findAll() {
     return this.userService.findAll();
