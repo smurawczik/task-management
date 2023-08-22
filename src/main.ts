@@ -11,6 +11,6 @@ async function bootstrap() {
   app.use(cookieParser());
   // somewhere in your initialization file
   app.use(compression());
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();
