@@ -1,6 +1,5 @@
-import { Issue } from 'src/issue/entities/issue.entity';
 import { Task } from 'src/task/entities/task.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Status {
@@ -13,9 +12,6 @@ export class Status {
   @Column()
   order: number;
 
-  @OneToOne(() => Task, (task) => task.status)
+  @OneToMany(() => Task, (task) => task.status)
   task: Task;
-
-  @OneToOne(() => Issue, (issue) => issue.status)
-  issue: Issue;
 }

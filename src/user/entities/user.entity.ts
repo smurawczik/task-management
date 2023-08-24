@@ -7,7 +7,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Issue } from 'src/issue/entities/issue.entity';
 import { Task } from 'src/task/entities/task.entity';
 import { UserRoles } from 'src/roles/entities/role.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
@@ -45,14 +44,8 @@ export class User {
   @OneToMany(() => Task, (task) => task.assignee)
   assignedTasks: Task[];
 
-  @OneToMany(() => Issue, (issue) => issue.reporter)
-  reportedIssues: Issue[];
-
-  @OneToMany(() => Issue, (issue) => issue.assignee)
-  assignedIssues: Issue[];
-
-  @OneToMany(() => Issue, (issue) => issue.assignee)
-  watchingIssues: Issue[];
+  @OneToMany(() => Task, (task) => task.assignee)
+  watchingTasks: Task[];
 
   @ManyToMany(() => Organization, (organization) => organization.members)
   organizations: Organization[];

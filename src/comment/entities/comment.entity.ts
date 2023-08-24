@@ -1,7 +1,6 @@
-import { Issue } from 'src/issue/entities/issue.entity';
 import { Task } from 'src/task/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Comment {
@@ -22,7 +21,4 @@ export class Comment {
 
   @ManyToOne(() => Task, (task) => task.comments)
   task: Task;
-
-  @ManyToOne(() => Issue, (issue) => issue.comments)
-  issue: Issue;
 }

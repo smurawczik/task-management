@@ -1,19 +1,18 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { BoardModule } from './board/board.module';
+import { CommentModule } from './comment/comment.module';
+import { LabelModule } from './label/label.module';
 import { OrganizationModule } from './organization/organization.module';
 import { ProjectModule } from './project/project.module';
 import { RolesModule } from './roles/roles.module';
 import { SprintModule } from './sprint/sprint.module';
-import { IssueModule } from './issue/issue.module';
-import { TaskModule } from './task/task.module';
-import { CommentModule } from './comment/comment.module';
-import { BoardModule } from './board/board.module';
-import { LabelModule } from './label/label.module';
-import { AuthenticationModule } from './authentication/authentication.module';
 import { StatusModule } from './status/status.module';
+import { TaskModule } from './task/task.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -36,7 +35,6 @@ import { StatusModule } from './status/status.module';
     ProjectModule,
     RolesModule,
     SprintModule,
-    IssueModule,
     TaskModule,
     CommentModule,
     BoardModule,

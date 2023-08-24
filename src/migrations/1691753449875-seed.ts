@@ -84,7 +84,7 @@ export class Seed1691753449875 implements MigrationInterface {
     await queryRunner.manager.save(sprint);
 
     const task = queryRunner.manager.create(Task, {
-      title: 'Test Task',
+      title: 'Test Task TODO',
       description: 'Test Task Description',
       dueDate: new Date(),
       assignee: user,
@@ -95,7 +95,7 @@ export class Seed1691753449875 implements MigrationInterface {
     });
 
     const task2 = queryRunner.manager.create(Task, {
-      title: 'Test Task',
+      title: 'Test Task IN PROGRESS',
       description: 'Test Task Description',
       dueDate: new Date(),
       assignee: user,
@@ -104,7 +104,17 @@ export class Seed1691753449875 implements MigrationInterface {
       status: statuses[1],
     });
 
-    await queryRunner.manager.save([task, task2]);
+    const task3 = queryRunner.manager.create(Task, {
+      title: 'Test Task TODO AGAIN',
+      description: 'Test Task Description',
+      dueDate: new Date(),
+      assignee: user,
+      reporter: user,
+      labels: [frontendLabel, backendLabel],
+      status: statuses[0],
+    });
+
+    await queryRunner.manager.save([task, task2, task3]);
 
     const board = queryRunner.manager.create(Board, {
       name: 'Test Board',

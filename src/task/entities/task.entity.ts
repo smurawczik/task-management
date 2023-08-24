@@ -13,7 +13,6 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -40,8 +39,7 @@ export class Task {
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @OneToOne(() => Status, (status) => status.task)
-  @JoinColumn()
+  @ManyToOne(() => Status, (status) => status.task)
   status: Status;
 
   @ManyToOne(() => Sprint, (sprint) => sprint.tasks)
@@ -53,10 +51,13 @@ export class Task {
   @ManyToOne(() => User, (user) => user.reportedTasks)
   reporter: User;
 
+  @ManyToOne(() => User, (user) => user.watchingTasks)
+  watcher: User;
+
   @OneToMany(() => Comment, (comment) => comment.task)
   comments: Comment[];
 
-  @ManyToMany(() => Label, (label) => label.issues)
+  @ManyToMany(() => Label, (label) => label.tasks)
   @JoinTable({ name: 'task_has_labels' })
   labels: Label[];
 

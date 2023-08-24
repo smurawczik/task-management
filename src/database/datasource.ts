@@ -1,6 +1,5 @@
 import { Board } from 'src/board/entities/board.entity';
 import { Comment } from 'src/comment/entities/comment.entity';
-import { Issue } from 'src/issue/entities/issue.entity';
 import { Label } from 'src/label/entities/label.entity';
 import { Organization } from 'src/organization/entities/organization.entity';
 import { Project } from 'src/project/entities/project.entity';
@@ -25,7 +24,6 @@ export default new DataSource({
     Task,
     Comment,
     Board,
-    Issue,
     Label,
     Organization,
     Project,
