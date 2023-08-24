@@ -8,6 +8,7 @@ import { Project } from 'src/project/entities/project.entity';
 import { Sprint } from 'src/sprint/entities/sprint.entity';
 import { Task } from 'src/task/entities/task.entity';
 import { Board } from 'src/board/entities/board.entity';
+import { Status } from 'src/status/entities/status.entity';
 
 export class Seed1691753449875 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -25,6 +26,27 @@ export class Seed1691753449875 implements MigrationInterface {
       name: 'Test Organization',
     });
     await queryRunner.manager.save(organization);
+
+    const statuses = [
+      queryRunner.manager.create(Status, {
+        order: 0,
+        name: 'To Do',
+      }),
+      queryRunner.manager.create(Status, {
+        order: 1,
+        name: 'In Progress',
+      }),
+      queryRunner.manager.create(Status, {
+        order: 2,
+        name: 'Blocked',
+      }),
+      queryRunner.manager.create(Status, {
+        order: 3,
+        name: 'Done',
+      }),
+    ];
+
+    await queryRunner.manager.save(statuses);
 
     const passwordHash = await bcrypt.hash('11111111', 10);
     const user = queryRunner.manager.create<User>(User, {
@@ -69,6 +91,7 @@ export class Seed1691753449875 implements MigrationInterface {
       reporter: user,
       sprint,
       labels: [frontendLabel, backendLabel],
+      status: statuses[0],
     });
 
     const task2 = queryRunner.manager.create(Task, {
@@ -78,6 +101,7 @@ export class Seed1691753449875 implements MigrationInterface {
       assignee: user,
       reporter: user,
       labels: [frontendLabel, backendLabel],
+      status: statuses[1],
     });
 
     await queryRunner.manager.save([task, task2]);

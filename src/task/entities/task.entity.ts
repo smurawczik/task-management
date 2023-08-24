@@ -1,18 +1,21 @@
 import { Board } from 'src/board/entities/board.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 import { Label } from 'src/label/entities/label.entity';
 import { Sprint } from 'src/sprint/entities/sprint.entity';
+import { Status } from 'src/status/entities/status.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { Priority } from 'src/utils/enums';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
-  ManyToMany,
-  JoinTable,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { TaskStatus, Priority } from 'src/utils/enums';
 
 @Entity()
 export class Task {
@@ -25,9 +28,6 @@ export class Task {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ default: TaskStatus.TO_DO })
-  status: TaskStatus;
-
   @Column({ default: Priority.LOW })
   priority: Priority;
 
@@ -39,6 +39,10 @@ export class Task {
 
   @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @OneToOne(() => Status, (status) => status.task)
+  @JoinColumn()
+  status: Status;
 
   @ManyToOne(() => Sprint, (sprint) => sprint.tasks)
   sprint: Sprint;

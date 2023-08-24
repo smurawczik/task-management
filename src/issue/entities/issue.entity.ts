@@ -1,16 +1,19 @@
-import { IssueStatus, Priority } from 'src/utils/enums';
+import { Comment } from 'src/comment/entities/comment.entity';
 import { Label } from 'src/label/entities/label.entity';
 import { Sprint } from 'src/sprint/entities/sprint.entity';
+import { Status } from 'src/status/entities/status.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { Priority } from 'src/utils/enums';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
-  ManyToMany,
-  JoinTable,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
@@ -21,11 +24,12 @@ export class Issue {
   @Column()
   name: string;
 
-  @Column({ default: IssueStatus.TO_DO })
-  status: IssueStatus;
-
   @Column({ default: Priority.LOW })
   priority: Priority;
+
+  @OneToOne(() => Status, (status) => status.issue)
+  @JoinColumn()
+  status: Status;
 
   @ManyToOne(() => Sprint, (sprint) => sprint.issues)
   sprint: Sprint;

@@ -13,6 +13,7 @@ import { CommentModule } from './comment/comment.module';
 import { BoardModule } from './board/board.module';
 import { LabelModule } from './label/label.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { StatusModule } from './status/status.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     BoardModule,
     LabelModule,
     AuthenticationModule,
+    StatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],

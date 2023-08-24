@@ -6,6 +6,7 @@ import { Organization } from 'src/organization/entities/organization.entity';
 import { Project } from 'src/project/entities/project.entity';
 import { UserRoles } from 'src/roles/entities/role.entity';
 import { Sprint } from 'src/sprint/entities/sprint.entity';
+import { Status } from 'src/status/entities/status.entity';
 import { Task } from 'src/task/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
 import { DataSource } from 'typeorm';
@@ -20,6 +21,7 @@ export default new DataSource({
   entities: [
     UserRoles,
     User,
+    Status,
     Task,
     Comment,
     Board,
