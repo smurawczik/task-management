@@ -1,11 +1,11 @@
-import { Organization } from 'src/organization/entities/organization.entity';
-import { Task } from 'src/task/entities/task.entity';
+import { Issue } from '../../issue/entities/issue.entity';
+import { Project } from '../../project/entities/project.entity';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToMany,
+  Entity,
+  ManyToMany,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
@@ -16,21 +16,9 @@ export class Board {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  description: string;
+  @ManyToOne(() => Project, (project) => project.boards)
+  project: Project;
 
-  @Column()
-  dueDate: Date;
-
-  @Column({ default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
-
-  @OneToMany(() => Task, (task) => task.board)
-  tasks: Task[];
-
-  @ManyToOne(() => Organization, (organization) => organization.boards)
-  organization: Organization;
+  @ManyToMany(() => Issue, (issue) => issue.boards)
+  issues: Issue[];
 }

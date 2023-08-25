@@ -1,4 +1,3 @@
-import { Organization } from '../../organization/entities/organization.entity';
 import {
   Column,
   Entity,
@@ -7,24 +6,14 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Task } from 'src/task/entities/task.entity';
-import { UserRoles } from 'src/roles/entities/role.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { IsEmail } from 'class-validator';
-import { Exclude } from 'class-transformer';
+import { Issue } from '../../issue/entities/issue.entity';
+import { Project } from '../../project/entities/project.entity';
+import { Role } from '../../roles/entities/role.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @IsEmail()
-  @Column({ unique: true })
-  email: string;
-
-  @Exclude()
-  @Column()
-  password: string;
 
   @Column()
   firstName: string;
@@ -32,24 +21,23 @@ export class User {
   @Column()
   lastName: string;
 
-  @ManyToMany(() => UserRoles, (userRoles) => userRoles.users)
-  @JoinTable({
-    name: 'user_has_roles',
-  })
-  roles: UserRoles[];
+  @Column()
+  email: string;
 
-  @OneToMany(() => Task, (task) => task.reporter)
-  reportedTasks: Task[];
+  @Column()
+  password: string;
 
-  @OneToMany(() => Task, (task) => task.assignee)
-  assignedTasks: Task[];
+  @ManyToMany(() => Project, (project) => project.users)
+  @JoinTable({ name: 'user_projects' })
+  projects: Project[];
 
-  @OneToMany(() => Task, (task) => task.assignee)
-  watchingTasks: Task[];
+  @ManyToMany(() => Role, (roles) => roles.users)
+  @JoinTable({ name: 'user_roles' })
+  roles: Role[];
 
-  @ManyToMany(() => Organization, (organization) => organization.members)
-  organizations: Organization[];
+  @OneToMany(() => Issue, (issue) => issue.assignee)
+  assignedIssues: Issue[];
 
-  @OneToMany(() => Comment, (comment) => comment.author)
-  comments: Comment[];
+  @OneToMany(() => Issue, (issue) => issue.reporter)
+  reportedIssues: Issue[];
 }

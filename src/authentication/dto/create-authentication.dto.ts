@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
-import { UserRoles } from 'src/roles/entities/role.entity';
+import { Role } from 'src/roles/entities/role.entity';
 
 export class CreateAuthenticationDto {}
 
@@ -22,7 +22,7 @@ export class AuthRegisterDto {
   lastName: string;
 
   @IsNotEmpty()
-  role: UserRoles[];
+  role: Role[];
 }
 
 export class AuthLoginDto {

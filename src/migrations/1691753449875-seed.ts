@@ -1,31 +1,25 @@
-import { UserRoles } from 'src/roles/entities/role.entity';
-import { User } from 'src/user/entities/user.entity';
-import { MigrationInterface, QueryRunner } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Organization } from 'src/organization/entities/organization.entity';
-import { Label } from 'src/label/entities/label.entity';
-import { Project } from 'src/project/entities/project.entity';
-import { Sprint } from 'src/sprint/entities/sprint.entity';
-import { Task } from 'src/task/entities/task.entity';
-import { Board } from 'src/board/entities/board.entity';
-import { Status } from 'src/status/entities/status.entity';
+import { MigrationInterface, QueryRunner } from 'typeorm';
+import { Board } from '../board/entities/board.entity';
+import { Issue } from '../issue/entities/issue.entity';
+import { Label } from '../label/entities/label.entity';
+import { Project } from '../project/entities/project.entity';
+import { Role } from '../roles/entities/role.entity';
+import { Sprint } from '../sprint/entities/sprint.entity';
+import { Status } from '../status/entities/status.entity';
+import { User } from '../user/entities/user.entity';
 
 export class Seed1691753449875 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const roles = [
-      queryRunner.manager.create(UserRoles, {
+      queryRunner.manager.create(Role, {
         name: 'admin',
       }),
-      queryRunner.manager.create(UserRoles, {
+      queryRunner.manager.create(Role, {
         name: 'user',
       }),
     ];
     await queryRunner.manager.save(roles);
-
-    const organization = queryRunner.manager.create(Organization, {
-      name: 'Test Organization',
-    });
-    await queryRunner.manager.save(organization);
 
     const statuses = [
       queryRunner.manager.create(Status, {
@@ -55,7 +49,6 @@ export class Seed1691753449875 implements MigrationInterface {
       firstName: 'Sebastian',
       lastName: 'Murawczik',
       roles: [roles[0]],
-      organizations: [organization],
     });
     await queryRunner.manager.save(user);
 
@@ -79,11 +72,12 @@ export class Seed1691753449875 implements MigrationInterface {
       startDate: new Date(),
       endDate: new Date(),
       project,
+      issues: [],
     });
 
     await queryRunner.manager.save(sprint);
 
-    const task = queryRunner.manager.create(Task, {
+    const task = queryRunner.manager.create(Issue, {
       title: 'Test Task TODO',
       description: 'Test Task Description',
       dueDate: new Date(),
@@ -94,7 +88,7 @@ export class Seed1691753449875 implements MigrationInterface {
       status: statuses[0],
     });
 
-    const task2 = queryRunner.manager.create(Task, {
+    const task2 = queryRunner.manager.create(Issue, {
       title: 'Test Task IN PROGRESS',
       description: 'Test Task Description',
       dueDate: new Date(),
@@ -104,7 +98,7 @@ export class Seed1691753449875 implements MigrationInterface {
       status: statuses[1],
     });
 
-    const task3 = queryRunner.manager.create(Task, {
+    const task3 = queryRunner.manager.create(Issue, {
       title: 'Test Task TODO AGAIN',
       description: 'Test Task Description',
       dueDate: new Date(),
@@ -118,20 +112,19 @@ export class Seed1691753449875 implements MigrationInterface {
 
     const board = queryRunner.manager.create(Board, {
       name: 'Test Board',
-      dueDate: new Date(),
-      tasks: [],
+      issues: [],
     });
 
-    task.board = board;
-    task2.board = board;
-    board.tasks = [task, task2];
+    task.boards = [board];
+    task2.boards = [board];
+    board.issues = [task, task2, task3];
 
     await queryRunner.manager.save(board);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.manager.delete(UserRoles, { name: 'admin' });
-    await queryRunner.manager.delete(UserRoles, { name: 'user' });
+    await queryRunner.manager.delete(Role, { name: 'admin' });
+    await queryRunner.manager.delete(Role, { name: 'user' });
     await queryRunner.manager.delete(User, {
       email: 'sebastian.murawczik@gmail.com',
     });

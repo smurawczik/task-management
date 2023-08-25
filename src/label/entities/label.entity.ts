@@ -1,4 +1,4 @@
-import { Task } from 'src/task/entities/task.entity';
+import { Issue } from '../../issue/entities/issue.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -9,6 +9,6 @@ export class Label {
   @Column()
   name: string;
 
-  @ManyToMany(() => Task, (task) => task.labels)
-  tasks: Task[];
+  @ManyToMany(() => Issue, (issue) => issue.labels)
+  issues: Issue[];
 }

@@ -1,5 +1,5 @@
-import { Project } from 'src/project/entities/project.entity';
-import { Task } from 'src/task/entities/task.entity';
+import { Issue } from '../../issue/entities/issue.entity';
+import { Project } from '../../project/entities/project.entity';
 import {
   Column,
   Entity,
@@ -25,6 +25,6 @@ export class Sprint {
   @ManyToOne(() => Project, (project) => project.sprints)
   project: Project;
 
-  @OneToMany(() => Task, (task) => task.sprint)
-  tasks: Task[];
+  @OneToMany(() => Issue, (issue) => issue.sprint)
+  issues: Issue[];
 }

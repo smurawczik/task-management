@@ -1,14 +1,19 @@
-import { Board } from 'src/board/entities/board.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { Label } from 'src/label/entities/label.entity';
-import { Organization } from 'src/organization/entities/organization.entity';
-import { Project } from 'src/project/entities/project.entity';
-import { UserRoles } from 'src/roles/entities/role.entity';
-import { Sprint } from 'src/sprint/entities/sprint.entity';
-import { Status } from 'src/status/entities/status.entity';
-import { Task } from 'src/task/entities/task.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Component } from 'src/component/entities/component.entity';
 import { DataSource } from 'typeorm';
+import { Attachment } from '../attachment/entities/attachment.entity';
+import { Board } from '../board/entities/board.entity';
+import { Comment } from '../comment/entities/comment.entity';
+import { IssueType } from '../issue-type/entities/issue-type.entity';
+import { Issue } from '../issue/entities/issue.entity';
+import { Label } from '../label/entities/label.entity';
+import { Project } from '../project/entities/project.entity';
+import { Role } from '../roles/entities/role.entity';
+import { Sprint } from '../sprint/entities/sprint.entity';
+import { Status } from '../status/entities/status.entity';
+import { User } from '../user/entities/user.entity';
+import { Workflow } from '../workflow/entities/workflow.entity';
+import { Version } from 'src/version/entities/version.entity';
+import { Priority } from 'src/priority/entities/priority.entity';
 
 export default new DataSource({
   type: 'mysql',
@@ -17,16 +22,22 @@ export default new DataSource({
   username: 'root',
   password: 'password',
   database: 'task_management',
+  dropSchema: true,
   entities: [
-    UserRoles,
-    User,
-    Status,
-    Task,
-    Comment,
+    Attachment,
     Board,
+    Comment,
+    Component,
+    Version,
+    Priority,
+    Role,
+    User,
+    Workflow,
+    Status,
     Label,
-    Organization,
     Project,
+    Issue,
+    IssueType,
     Sprint,
   ],
   migrations: ['dist/src/migrations/*.js'],

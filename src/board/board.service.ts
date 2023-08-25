@@ -19,7 +19,7 @@ export class BoardService {
   findAll() {
     return this.boardsRepository.find({
       relations: {
-        tasks: true,
+        issues: true,
       },
     });
   }

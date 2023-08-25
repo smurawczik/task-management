@@ -1,5 +1,12 @@
-import { Task } from 'src/task/entities/task.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Issue } from '../../issue/entities/issue.entity';
+import { Workflow } from '../../workflow/entities/workflow.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Status {
@@ -12,6 +19,9 @@ export class Status {
   @Column()
   order: number;
 
-  @OneToMany(() => Task, (task) => task.status)
-  task: Task;
+  @ManyToOne(() => Workflow, (workflow) => workflow.statuses)
+  workflow: Workflow;
+
+  @OneToMany(() => Issue, (issue) => issue.priority)
+  issues: Issue[];
 }

@@ -19,7 +19,7 @@ export class SprintService {
   findAll() {
     return this.sprintsRepository.find({
       relations: {
-        tasks: true,
+        issues: true,
       },
     });
   }
