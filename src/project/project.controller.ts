@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { AuthenticationGuard } from 'src/authentication/authentication.guard';
 
 @Controller('projects')
 export class ProjectController {
@@ -20,9 +23,10 @@ export class ProjectController {
     return this.projectService.create(createProjectDto);
   }
 
+  @UseGuards(AuthenticationGuard)
   @Get()
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Request() req: any) {
+    return this.projectService.findAll(req.user.user_id);
   }
 
   @Get(':id')

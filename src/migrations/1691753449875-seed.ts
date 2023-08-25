@@ -63,9 +63,16 @@ export class Seed1691753449875 implements MigrationInterface {
     const project = queryRunner.manager.create<Project>(Project, {
       name: 'Test Project',
       description: 'Test Project Description',
+      users: [user],
     });
 
-    await queryRunner.manager.save(project);
+    const project2 = queryRunner.manager.create<Project>(Project, {
+      name: 'Test Project 2',
+      description: 'Test Project Description 33',
+      users: [user],
+    });
+
+    await queryRunner.manager.save([project, project2]);
 
     const sprint = queryRunner.manager.create(Sprint, {
       name: 'Test Sprint',
