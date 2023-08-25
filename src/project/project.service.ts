@@ -4,16 +4,27 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities/project.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectRepository(Project)
     private projectsRepository: Repository<Project>,
+
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
-  create(createProjectDto: CreateProjectDto) {
-    return 'This action adds a new project';
+  async create(createProjectDto: CreateProjectDto, userId: string) {
+    const user = await this.usersRepository.findOneBy({ id: userId });
+    if (!user) throw new Error('User not found');
+
+    const newProject = this.projectsRepository.create(createProjectDto);
+
+    newProject.users = [user];
+
+    return this.projectsRepository.save(createProjectDto);
   }
 
   findAll(userId: string) {

@@ -18,9 +18,10 @@ import { AuthenticationGuard } from 'src/authentication/authentication.guard';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
+  @UseGuards(AuthenticationGuard)
   @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectService.create(createProjectDto);
+  create(@Body() createProjectDto: CreateProjectDto, @Request() req: any) {
+    return this.projectService.create(createProjectDto, req.user.user_id);
   }
 
   @UseGuards(AuthenticationGuard)
