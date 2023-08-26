@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities/project.entity';
@@ -42,8 +42,18 @@ export class ProjectService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  async findOne(id: string) {
+    const project = await this.projectsRepository.findOne({
+      where: { id },
+      relations: {
+        boards: true,
+        issues: true,
+        sprints: true,
+      },
+    });
+    if (!project) throw new HttpException('Project not found', 404);
+
+    return project;
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {
